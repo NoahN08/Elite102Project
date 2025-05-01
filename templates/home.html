@@ -1,0 +1,12 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Welcome to Smart Banking</h1>
+    <div class="auth-options">
+        <a href="{{ url_for('login') }}" class="btn">Login</a>
+        <a href="{{ url_for('create_account') }}" class="btn">Create Account</a>
+    </div>
+</div>
+{% endblock %}
