@@ -1,0 +1,23 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Transaction History</h2>
+    <div class="transaction-list">
+        {% for transaction in transactions %}
+        <div class="transaction-card">
+            <div class="transaction-type {% if transaction.transaction_type == 'deposit' %}deposit{% else %}withdraw{% endif %}">
+                {{ transaction.transaction_type|title }}
+            </div>
+            <div class="transaction-amount">
+                ${{ "%.2f"|format(transaction.amount) }}
+            </div>
+            <div class="transaction-date">
+                {{ transaction.timestamp }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
