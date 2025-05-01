@@ -1,0 +1,21 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Your Accounts</h2>
+    <nav class="dashboard-nav">
+        <a href="{{ url_for('transaction_history') }}" class="nav-link">Transaction History</a>
+        <a href="{{ url_for('account_settings') }}" class="nav-link">Account Settings</a>
+    </nav>
+    <div class="accounts">
+        {% for account in accounts %}
+        <div class="account-card">
+            <h3>{{ account.account_type.title() }} Account</h3>
+            <p>Balance: ${{ "%.2f"|format(account.balance) }}</p>
+            <p>Account ID: {{ account.id }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
