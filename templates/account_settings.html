@@ -1,0 +1,22 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Account Settings</h2>
+    <form method="post" class="settings-form">
+        <div class="form-group">
+            <label>Name:</label>
+            <input type="text" name="name" value="{{ user.name }}" required>
+        </div>
+        <button type="submit" name="action" value="update">Update Details</button>
+    </form>
+
+    <div class="danger-zone">
+        <h3>Danger Zone</h3>
+        <form method="post" onsubmit="return confirm('Are you sure you want to close your account? This cannot be undone.');">
+            <button type="submit" name="action" value="close" class="btn-danger">Close Account</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
