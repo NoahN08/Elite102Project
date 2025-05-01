@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Account {% endblock %}
+
+{% block content %}
+    <div class="dashboard">
+        <section class="account-section">
+            <h2>Account Settings</h2>
+            <div class="account-form">
+                <form action="{{ url_for('account') }}" method="post">
+                    <input type="text" name="first_name" placeholder="First Name" required>
+                    <input type="text" name="last_name" placeholder="Last Name" required>
+                    <input type="number" name="age" placeholder="Age" required>
+                    <button type="submit">Update Account</button>
+                </form>
+            </div>
+            {% if account %}
+            <div class="account-display">
+                <p>First Name: {{ account.first_name }}</p>
+                <p>Last Name: {{ account.last_name }}</p>
+                <p>Age: {{ account.age }}</p>
+            </div>
+            {% endif %}
+        </section>
+    </div>
+{% endblock %}

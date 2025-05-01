@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Financial Literacy{% endblock %}
+
+{% block content %}
+
+<section class="literacy-section">
+    <h2>Financial Education Center</h2>
+    <div class="button-container">
+        <button><a href="{{ url_for('lit_invest') }}" class="edu-button investing" >Investing</a></button>
+        <button><a href="{{ url_for('lit_budget') }}" class="edu-button budget" >Budgeting</a></button>
+        <button><a href="{{ url_for('lit_debt') }}"class="edu-button investing">Debt Management</a></button>
+    </div>
+</section>
+
+{% endblock %}
+
