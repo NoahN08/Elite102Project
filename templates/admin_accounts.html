@@ -1,0 +1,21 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Account Management</h2>
+    <div class="accounts-list">
+        {% for account in accounts %}
+        <div class="account-card">
+            <h3>Account #{{ account.account_number }}</h3>
+            <p>Name: {{ account.name }}</p>
+            <p>Balance: ${{ "%.2f"|format(account.balance) }}</p>
+            <p>Type: {{ account.account_type }}</p>
+            <form method="post" action="{{ url_for('modify_account', account_id=account.id) }}">
+                <button type="submit" name="action" value="close" class="btn">Close Account</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
