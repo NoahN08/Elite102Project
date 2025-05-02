@@ -29,16 +29,18 @@ def get_db():
 
 def init_db():
     try:
-        # Only initialize if database doesn't exist
-        if not os.path.exists('banking.db'):
-            with app.app_context():
-                db = get_db()
-                with open('schema.sql', 'r') as f:
-                    script = f.read()
-                db.executescript(script)
-                db.commit()
-                db.close()
-                print("Database initialized successfully")
+        # Remove existing database file
+        if os.path.exists('banking.db'):
+            os.remove('banking.db')
+            
+        with app.app_context():
+            db = get_db()
+            with open('schema.sql', 'r') as f:
+                script = f.read()
+            db.executescript(script)
+            db.commit()
+            db.close()
+            print("Database initialized successfully")
     except Exception as e:
         print(f"Database initialization error: {e}")
 
