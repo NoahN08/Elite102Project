@@ -29,19 +29,18 @@ def get_db():
 
 def init_db():
     try:
+        # Remove existing database file
+        if os.path.exists('banking.db'):
+            os.remove('banking.db')
+            
         with app.app_context():
             db = get_db()
             with open('schema.sql', 'r') as f:
                 script = f.read()
-            # Only create tables if they don't exist
-            try:
-                db.executescript(script)
-                db.commit()
-            except sqlite3.OperationalError as e:
-                if "already exists" not in str(e):
-                    raise e
-            finally:
-                db.close()
+            db.executescript(script)
+            db.commit()
+            db.close()
+            print("Database initialized successfully")
     except Exception as e:
         print(f"Database initialization error: {e}")
 
