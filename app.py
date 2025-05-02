@@ -6,14 +6,18 @@ from flask_session import Session
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
+from datetime import timedelta
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
 CORS(app)
 
 # Session configuration
-app.config['SECRET_KEY'] = 'your_secret_key'  # Replace with a strong secret key
-app.config['SESSION_TYPE'] = 'filesystem'
-app.config['SESSION_PERMANENT'] = False
+app.config.update(
+    SECRET_KEY=os.urandom(24),
+    SESSION_TYPE='filesystem',
+    SESSION_PERMANENT=False,
+    PERMANENT_SESSION_LIFETIME=timedelta(minutes=30)
+)
 Session(app)
 
 
@@ -24,11 +28,22 @@ def get_db():
 
 
 def init_db():
-    with app.app_context():
-        db = get_db()
-        with app.open_resource('schema.sql', mode='r') as f:
-            db.cursor().executescript(f.read())
-        db.commit()
+    try:
+        with app.app_context():
+            db = get_db()
+            with open('schema.sql', 'r') as f:
+                script = f.read()
+            # Only create tables if they don't exist
+            try:
+                db.executescript(script)
+                db.commit()
+            except sqlite3.OperationalError as e:
+                if "already exists" not in str(e):
+                    raise e
+            finally:
+                db.close()
+    except Exception as e:
+        print(f"Database initialization error: {e}")
 
 
 def login_required(f):
@@ -244,6 +259,5 @@ def logout():
 
 
 if __name__ == '__main__':
-    if not os.path.exists('banking.db'):
-        init_db()
+    init_db()  # Always initialize DB to ensure schema is correct
     app.run(host='0.0.0.0', port=8080, debug=True)
